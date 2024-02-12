@@ -1,0 +1,50 @@
+name: box
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@main
+
+      - name: Initialize Packer
+        run: packer init .
+        env:
+          PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Validate Template
+        run: packer validate .
+
+  qemu:
+    runs-on: macos-latest
+    name: QEMU Builder
+    needs: validate
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Initialize Packer
+        run: packer init .
+        env:
+          PACKER_GITHUB_API_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Build the Box
+        run: |
+          packer build -only=qemu.netbsd .
+          ls -la
+          ls -la output-netbsd
+        env:
+          ntpdate_hosts: ntp.ubuntu.com
+
