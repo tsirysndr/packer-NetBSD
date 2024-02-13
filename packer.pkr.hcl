@@ -1,7 +1,7 @@
 source "qemu" "netbsd" {
   boot_command            = [
         "<enter><enter>e<enter><enter>dhcpcd wm0<enter>sleep 2<enter>ftp -o /tmp/i.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-NetBSD-9-amd64.sh<enter>sh /tmp/i.sh<enter>reboot<enter>"
-      ],
+      ]
   boot_wait               = "40s"
   cpus                    = "${var.cpus}"
   disk_size               = "${var.disk_size}"
