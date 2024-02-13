@@ -23,16 +23,17 @@ build {
   sources = [
     "source.qemu.netbsd",
   ]
+  
+  provisioner "shell" {
+   environment_vars = [
+    "PROVISIONER=${var.provisioner}",
+   "NBSD_RELEASE=${var.release}"
+   ]
+   execute_command = "chmod +x {{ .Path }}; env {{ .Vars }} {{ .Path }}"
+   scripts = ["scripts/postinstall.sh"]
+  }
 }
 
-proviosioner "shell" {
-  environment_vars = [
-    "PROVISIONER=${var.provisioner}",
-    "NBSD_RELEASE=${var.release}"
-  ]
-  execute_command = "chmod +x {{ .Path }}; env {{ .Vars }} {{ .Path }}"
-  scripts = ["scripts/postinstall.sh"]
-}
 
 packer {
   required_plugins {
