@@ -27,3 +27,14 @@ variable "iso_checksum" {
   type = string
   default = "d37728b4a9c6f48e01723f65161cbbae"
 }
+
+variable "provisioner" {
+  type = string
+  default = "ansible:chef:puppet"
+}
+
+variable "release" {
+  type = string
+  default = "9.3"
+}
+
