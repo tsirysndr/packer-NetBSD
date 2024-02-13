@@ -6,6 +6,7 @@ source "qemu" "netbsd" {
   cpus                    = "${var.cpus}"
   disk_size               = "${var.disk_size}"
   headless                = true
+  http_directory          = "http"
   iso_checksum            = "md5:${var.iso_checksum}"
   iso_url                 = "${var.iso_url}" 
   memory                  = "${var.memory}"
